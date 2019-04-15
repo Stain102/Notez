@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar
 import android.view.View
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 
 class MainActivity : AppCompatActivity() {
 
@@ -31,7 +32,9 @@ class MainActivity : AppCompatActivity() {
         val id = item.itemId
 
 
-        return if (id == R.id.action_settings) {
+        return if (id == R.id.action_add) {
+            // ToDo: start intent (activity edit)
+            Toast.makeText(this, "Add button clicked!", Toast.LENGTH_SHORT).show()
             true
         } else super.onOptionsItemSelected(item)
 
