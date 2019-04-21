@@ -16,10 +16,10 @@ class MainActivity : AppCompatActivity() {
         val toolbar = findViewById<Toolbar>(R.id.toolbar_main)
         setSupportActionBar(toolbar)
 
-        val button = findViewById<Button>(R.id.button2)
-        button.setOnClickListener {
-            openNoteActivity(false)
-        }
+//        val button = findViewById<Button>(R.id.button2)
+//        button.setOnClickListener {
+//            openNoteActivity(false)
+//        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
