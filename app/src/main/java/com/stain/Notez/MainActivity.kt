@@ -14,6 +14,7 @@ class MainActivity : AppCompatActivity() {
 
     var notes : ArrayList<Note> = ArrayList() // generates new list. Alternative for initializing empty list "emptyList()"
     var noteAdapter : NoteAdapter? = null
+    var id: Int = 0
     lateinit var recyclerView: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,12 +64,22 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
+    fun addNote(note: Note) {
+        notes.add(note)
+    }
+
+    fun getNoteId(): Int {
+        val noteId = id
+        id++
+        return noteId
+    }
+
     /**
      * Temp fun to populate list of notes.
      */
     private fun addNotes() {
         for (i in 1..10) {
-            notes.add(Note("Title #$i", ""))
+            addNote(Note(getNoteId(),"Title #$i", ""))
         }
     }
 }
