@@ -2,7 +2,10 @@ package com.stain.Notez
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.Button
+import android.widget.Toast
 
 class NoteActivity : AppCompatActivity() {
 
@@ -22,5 +25,20 @@ class NoteActivity : AppCompatActivity() {
         button.setOnClickListener {
             finish()
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu_note, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val id = item.itemId
+
+        return if (id == R.id.action_save) {
+            // ToDo: save / add note to collections of notes
+            Toast.makeText(this, "Note was saved!", Toast.LENGTH_SHORT).show()
+            return true
+        } else super.onOptionsItemSelected(item)
     }
 }
