@@ -38,6 +38,7 @@ class NoteActivity : AppCompatActivity() {
         return if (id == R.id.action_save) {
             // ToDo: save / add note to collections of notes
             Toast.makeText(this, "Note was saved!", Toast.LENGTH_SHORT).show()
+            finish()
             return true
         } else super.onOptionsItemSelected(item)
     }
