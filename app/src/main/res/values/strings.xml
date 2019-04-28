@@ -3,4 +3,5 @@
     <string name="action_add">Add Note</string>
     <string name="main_act">Main Activity</string>
     <string name="note_act">Note Activity</string>
+    <string name="title">Title</string>
 </resources>
