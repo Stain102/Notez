@@ -3,23 +3,36 @@ package com.stain.Notez
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Button
+import com.stain.Notez.models.Note
 
 class MainActivity : AppCompatActivity() {
+
+    var notes : ArrayList<Note> = ArrayList() // generates new list. Alternative for initializing empty list "emptyList()"
+    var noteAdapter : NoteAdapter? = null
+    lateinit var recyclerView: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
         val toolbar = findViewById<Toolbar>(R.id.toolbar_main)
         setSupportActionBar(toolbar)
 
-        val button = findViewById<Button>(R.id.button2)
-        button.setOnClickListener {
-            openNoteActivity(false)
-        }
+        recyclerView = findViewById(R.id.note_view)
+        recyclerView.layoutManager = LinearLayoutManager(this)
+
+        // ToDo: remove fun call
+        addNotes()
+
+        // ToDo: change to use db data retrieval with callback
+        // ToDo: populate notes with data
+        noteAdapter = NoteAdapter(notes)
+        recyclerView.adapter = noteAdapter
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -48,5 +61,14 @@ class MainActivity : AppCompatActivity() {
         intent.putExtra(NoteActivity.TEXT, "")
 
         startActivity(intent)
+    }
+
+    /**
+     * Temp fun to populate list of notes.
+     */
+    private fun addNotes() {
+        for (i in 1..10) {
+            notes.add(Note("Title #$i", ""))
+        }
     }
 }
