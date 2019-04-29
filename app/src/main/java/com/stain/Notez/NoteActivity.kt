@@ -4,7 +4,6 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Button
 import android.widget.Toast
 
 class NoteActivity : AppCompatActivity() {
@@ -20,11 +19,6 @@ class NoteActivity : AppCompatActivity() {
         setContentView(R.layout.activity_note)
 
         supportActionBar?.title = if (intent.getBooleanExtra(IS_NEW, true)) "New Note" else "Edit Note"
-
-        val button = findViewById<Button>(R.id.button)
-        button.setOnClickListener {
-            finish()
-        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

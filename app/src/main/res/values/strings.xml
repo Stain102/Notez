@@ -5,5 +5,7 @@
     <string name="main_act">Main Activity</string>
     <string name="note_act">Note Activity</string>
     <string name="title">Title</string>
+    <string name="body">Body</string>
     <string name="id">Id: 1</string>
+    <string name="updated">Updated: -----</string>
 </resources>
