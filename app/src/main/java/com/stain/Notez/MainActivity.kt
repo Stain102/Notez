@@ -50,36 +50,43 @@ class MainActivity : AppCompatActivity() {
 
         return if (id == R.id.action_add) {
             //Toast.makeText(this, "Add button clicked!", Toast.LENGTH_SHORT).show()
-            openNoteActivity(true)
+            openNoteActivity(true, getNewNote())
             true
         } else super.onOptionsItemSelected(item)
     }
 
-    fun openNoteActivity(isNew: Boolean) {
+    fun openNoteActivity(isNew: Boolean, note: Note) {
         val intent = Intent(this, NoteActivity::class.java)
         intent.putExtra(NoteActivity.IS_NEW, isNew)
-        intent.putExtra(NoteActivity.TITLE, "")
-        intent.putExtra(NoteActivity.TEXT, "")
+        intent.putExtra(NoteActivity.ID, note.id)
+        intent.putExtra(NoteActivity.TITLE, note.title)
+        intent.putExtra(NoteActivity.TEXT, note.text)
+        // ToDo: add timeStamp (last updated)
 
         startActivity(intent)
     }
 
-    fun addNote(note: Note) {
-        notes.add(note)
+    private fun getNewNote(): Note {
+        return Note(getNoteId(), "", "")
     }
 
-    fun getNoteId(): Int {
-        val noteId = id
-        id++
-        return noteId
+    private fun getNoteId(): Int {
+        return id
+    }
+
+    // region Temp
+    fun addNote(note: Note) {
+        notes.add(note)
     }
 
     /**
      * Temp fun to populate list of notes.
      */
     private fun addNotes() {
-        for (i in 1..10) {
+        for (i in 0..9) {
             addNote(Note(getNoteId(),"Title #$i", ""))
+            id++
         }
     }
+    // endregion
 }

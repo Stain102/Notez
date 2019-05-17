@@ -8,4 +8,5 @@
     <string name="body">Body</string>
     <string name="id">Id: 1</string>
     <string name="updated">Updated: -----</string>
+    <string name="edit">Edit</string>
 </resources>
