@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import com.stain.Notez.models.Note
 
 class MainActivity : AppCompatActivity() {
@@ -64,6 +65,11 @@ class MainActivity : AppCompatActivity() {
         intent.putExtra(NoteActivity.TIMESTAMP, note.timestamp)
 
         startActivity(intent)
+    }
+
+    fun deleteNote(id: Int) {
+        // ToDo: delete note with the specified id!
+        Toast.makeText(this, "Note #$id was deleted!", Toast.LENGTH_SHORT).show()
     }
 
     private fun getNewNote(): Note {
