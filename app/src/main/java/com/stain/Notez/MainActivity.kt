@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
 
         // ToDo: change to use db data retrieval with callback
         // ToDo: populate notes with data
-        noteAdapter = NoteAdapter(notes)
+        noteAdapter = NoteAdapter(notes, this)
         recyclerView.adapter = noteAdapter
     }
 
@@ -61,13 +61,13 @@ class MainActivity : AppCompatActivity() {
         intent.putExtra(NoteActivity.ID, note.id)
         intent.putExtra(NoteActivity.TITLE, note.title)
         intent.putExtra(NoteActivity.TEXT, note.text)
-        // ToDo: add timeStamp (last updated)
+        intent.putExtra(NoteActivity.TIMESTAMP, note.timestamp)
 
         startActivity(intent)
     }
 
     private fun getNewNote(): Note {
-        return Note(getNoteId(), "", "")
+        return Note(getNoteId(), "", "", "Created: ----")
     }
 
     private fun getNoteId(): Int {
@@ -84,7 +84,7 @@ class MainActivity : AppCompatActivity() {
      */
     private fun addNotes() {
         for (i in 0..9) {
-            addNote(Note(getNoteId(),"Title #$i", ""))
+            addNote(Note(getNoteId(),"Title #$i", "Sample text #$i", "Updated: ----"))
             id++
         }
     }

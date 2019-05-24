@@ -15,6 +15,7 @@ class NoteActivity : AppCompatActivity() {
         val ID = "id"
         val TITLE = "title"
         val TEXT = "text"
+        val TIMESTAMP = "timestamp"
     }
 
     private var mId = 0
