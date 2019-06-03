@@ -1,21 +1,22 @@
 package com.stain.Notez
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import com.stain.Notez.models.Note
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), NoteAdapter.ItemClickListener {
 
-    var notes : ArrayList<Note> = ArrayList() // generates new list. Alternative for initializing empty list "emptyList()"
-    var noteAdapter : NoteAdapter? = null
-    var id: Int = 0
+    lateinit var dbHandler: DBHandler
+    lateinit var noteAdapter : NoteAdapter
     lateinit var recyclerView: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,74 +26,64 @@ class MainActivity : AppCompatActivity() {
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
 
+        dbHandler = DBHandler(this)
+
         recyclerView = findViewById(R.id.note_view)
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        // ToDo: remove fun call
-        addNotes()
-
-        // ToDo: change to use db data retrieval with callback
-        // ToDo: populate notes with data
-        noteAdapter = NoteAdapter(notes, this)
+        noteAdapter = NoteAdapter(this, dbHandler.getAllNotes())
+        noteAdapter.setItemClickListener(this)
         recyclerView.adapter = noteAdapter
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_main, menu)
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         val id = item.itemId
 
         return if (id == R.id.action_add) {
-            //Toast.makeText(this, "Add button clicked!", Toast.LENGTH_SHORT).show()
-            openNoteActivity(true, getNewNote())
-            true
+            val intent = Intent(this, NoteActivity::class.java)
+            intent.putExtra(NoteActivity.NOTE, Note(-1,"",""))
+            startActivityForResult(intent, NoteActivity.REQ_CODE_ADD)
+            return true
         } else super.onOptionsItemSelected(item)
     }
 
-    fun openNoteActivity(isNew: Boolean, note: Note) {
+    override fun onEditClicked(adapterPos: Int) {
+        val note = noteAdapter.getItem(adapterPos)
         val intent = Intent(this, NoteActivity::class.java)
-        intent.putExtra(NoteActivity.IS_NEW, isNew)
-        intent.putExtra(NoteActivity.ID, note.id)
-        intent.putExtra(NoteActivity.TITLE, note.title)
-        intent.putExtra(NoteActivity.TEXT, note.text)
-        intent.putExtra(NoteActivity.TIMESTAMP, note.timestamp)
+        intent.putExtra(NoteActivity.IS_NEW, false)
+        intent.putExtra(NoteActivity.NOTE, note)
 
-        startActivity(intent)
+        startActivityForResult(intent, NoteActivity.REQ_CODE_UPDATE)
     }
 
-    fun deleteNote(id: Int) {
-        // ToDo: delete note with the specified id!
-        Toast.makeText(this, "Note #$id was deleted!", Toast.LENGTH_SHORT).show()
+    override fun onDelClicked(adapterPos: Int) {
+        val note = noteAdapter.getItem(adapterPos)
+        dbHandler.deleteNote(note.id)
+        noteAdapter.itemRemoved(adapterPos)
     }
 
-    private fun getNewNote(): Note {
-        return Note(getNoteId(), "", "", "Created: ----")
-    }
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
 
-    private fun getNoteId(): Int {
-        return id
-    }
+        if (resultCode == Activity.RESULT_OK) {
+            val note = data?.getParcelableExtra<Note>(NoteActivity.NOTE)
 
-    // region Temp
-    fun addNote(note: Note) {
-        notes.add(note)
-    }
+            Log.d("RESULT", "DATA: " + data?.toString())
 
-    /**
-     * Temp fun to populate list of notes.
-     */
-    private fun addNotes() {
-        for (i in 0..9) {
-            addNote(Note(getNoteId(),"Title #$i", "Sample text #$i", "Updated: ----"))
-            id++
+            if (requestCode == NoteActivity.REQ_CODE_ADD) {
+                dbHandler.addNote(note!!)
+                noteAdapter.itemAdded(note)
+                Toast.makeText(this, "Note was added", Toast.LENGTH_SHORT).show()
+            } else if (requestCode == NoteActivity.REQ_CODE_UPDATE) {
+                dbHandler.updateNote(note!!)
+                noteAdapter.itemChanged(note)
+                Toast.makeText(this, "Note was updated", Toast.LENGTH_SHORT).show()
+            }
         }
     }
-    // endregion
 }

@@ -1,7 +1,12 @@
 package com.stain.Notez.models
 
-data class Note(val id: Int,
-                val title: String,
-                val text: String,
-                val timestamp: String) {
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+@Parcelize
+data class Note(var id: Int,
+                var title: String,
+                var text: String): Parcelable, Comparable<Note> {
+
+    override fun compareTo(other: Note) = compareValuesBy(this, other, {it.id}, {it.title}, {it.text})
 }
