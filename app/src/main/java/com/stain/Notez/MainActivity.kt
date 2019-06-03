@@ -10,7 +10,6 @@ import android.support.v7.widget.Toolbar
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
 import com.stain.Notez.models.Note
 
 class MainActivity : AppCompatActivity(), NoteAdapter.ItemClickListener {
@@ -73,16 +72,15 @@ class MainActivity : AppCompatActivity(), NoteAdapter.ItemClickListener {
         if (resultCode == Activity.RESULT_OK) {
             val note = data?.getParcelableExtra<Note>(NoteActivity.NOTE)
 
-            Log.d("RESULT", "DATA: " + data?.toString())
+            Log.d("RESULT", "Note, id=${note?.id}, title=${note?.title}, text=${note?.text}")
 
             if (requestCode == NoteActivity.REQ_CODE_ADD) {
                 dbHandler.addNote(note!!)
                 noteAdapter.itemAdded(note)
-                Toast.makeText(this, "Note was added", Toast.LENGTH_SHORT).show()
             } else if (requestCode == NoteActivity.REQ_CODE_UPDATE) {
                 dbHandler.updateNote(note!!)
+                Log.d("RESULT", "Note was updated")
                 noteAdapter.itemChanged(note)
-                Toast.makeText(this, "Note was updated", Toast.LENGTH_SHORT).show()
             }
         }
     }

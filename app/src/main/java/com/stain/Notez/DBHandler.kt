@@ -4,6 +4,7 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import android.util.Log
 import com.stain.Notez.models.Note
 
 class DBHandler(context: Context): SQLiteOpenHelper(context, DB_NAME, null, DB_VERSION) {
@@ -79,5 +80,8 @@ class DBHandler(context: Context): SQLiteOpenHelper(context, DB_NAME, null, DB_V
         val db = this.writableDatabase
 
         db.delete(NOTE_TABLE_NAME, "id=$id", null)
+        db.close()
+
+        Log.d("DB.DELETE", "Note with id $id was deleted")
     }
 }

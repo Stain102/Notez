@@ -2,6 +2,7 @@ package com.stain.Notez
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -61,7 +62,8 @@ class NoteAdapter(private val ctx: Context, private val notes: ArrayList<Note>) 
     }
 
     fun itemChanged(note: Note) {
-        val index = notes.indexOf(note)
+        val index = getItemIndex(note.id)
+        Log.d("NoteAdapter", "note-index: $index")
         notes[index] = note
         notifyItemChanged(index)
     }
@@ -78,6 +80,17 @@ class NoteAdapter(private val ctx: Context, private val notes: ArrayList<Note>) 
 
     fun getItem(position: Int): Note {
         return notes[position]
+    }
+
+    private fun getItemIndex(id: Int): Int {
+        var itemIndex = -1
+        for ((index, value) in notes.withIndex()) {
+            if (value.id == id) {
+                itemIndex = index
+                break
+            }
+        }
+        return itemIndex
     }
 
 }
