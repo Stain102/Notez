@@ -3,6 +3,7 @@ package com.stain.Notez
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -62,8 +63,17 @@ class MainActivity : AppCompatActivity(), NoteAdapter.ItemClickListener {
 
     override fun onDelClicked(adapterPos: Int) {
         val note = noteAdapter.getItem(adapterPos)
-        dbHandler.deleteNote(note.id)
-        noteAdapter.itemRemoved(adapterPos)
+        val deleteNote = {
+            dbHandler.deleteNote(note.id)
+            noteAdapter.itemRemoved(adapterPos)
+        }
+
+        AlertDialog.Builder(this@MainActivity)
+                .setTitle("Deleting Note")
+                .setMessage("Are you sure?")
+                .setPositiveButton("Yes"){_, _ -> deleteNote() }
+                .setNegativeButton("No"){_, _ -> }
+                .show()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
