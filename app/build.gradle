@@ -1,12 +1,17 @@
 apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+androidExtensions {
+    experimental = true
+}
 
 android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.stain.Notez"
-        minSdkVersion 21
+        minSdkVersion 26
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"

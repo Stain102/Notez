@@ -1,7 +1,13 @@
 <resources>
     <string name="app_name">Notez</string>
     <string name="action_add">Add Note</string>
+    <string name="action_save">Save</string>
     <string name="main_act">Main Activity</string>
     <string name="note_act">Note Activity</string>
     <string name="title">Title</string>
+    <string name="body">Body</string>
+    <string name="id">Id: 1</string>
+    <string name="updated">Updated: -----</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
 </resources>
