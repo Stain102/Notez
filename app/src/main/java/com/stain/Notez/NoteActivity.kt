@@ -51,11 +51,23 @@ class NoteActivity : AppCompatActivity() {
     private fun saveNote() {
         val intent = Intent()
 
-        note.title = title?.text.toString()
-        note.text = text?.text.toString()
-        intent.putExtra(NOTE, note)
-        setResult(Activity.RESULT_OK, intent)
+        // Avoiding saving if no changes has been made!
+        if (hasNoteChanged()) {
+            note.title = title?.text.toString()
+            note.text = text?.text.toString()
+            intent.putExtra(NOTE, note)
+            setResult(Activity.RESULT_OK, intent)
+        } else {
+            setResult(Activity.RESULT_CANCELED)
+        }
         finish()
+    }
+
+    private fun hasNoteChanged(): Boolean {
+        val title = title?.text.toString()
+        val text = text?.text.toString()
+
+        return note.compareTo(Note(note.id, title, text)) != 0
     }
 
     private fun setViews() {

@@ -8,7 +8,6 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import com.stain.Notez.models.Note
@@ -82,14 +81,11 @@ class MainActivity : AppCompatActivity(), NoteAdapter.ItemClickListener {
         if (resultCode == Activity.RESULT_OK) {
             val note = data?.getParcelableExtra<Note>(NoteActivity.NOTE)
 
-            Log.d("RESULT", "Note, id=${note?.id}, title=${note?.title}, text=${note?.text}")
-
             if (requestCode == NoteActivity.REQ_CODE_ADD) {
                 dbHandler.addNote(note!!)
                 noteAdapter.itemAdded(note)
             } else if (requestCode == NoteActivity.REQ_CODE_UPDATE) {
                 dbHandler.updateNote(note!!)
-                Log.d("RESULT", "Note was updated")
                 noteAdapter.itemChanged(note)
             }
         }
