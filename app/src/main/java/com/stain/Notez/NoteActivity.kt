@@ -1,6 +1,7 @@
 package com.stain.Notez
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -46,6 +47,23 @@ class NoteActivity : AppCompatActivity() {
             saveNote()
             return true
         } else super.onOptionsItemSelected(item)
+    }
+
+    override fun onBackPressed() {
+        if (hasNoteChanged()) {
+            alertOfChanges()
+        } else {
+            super.onBackPressed()
+        }
+    }
+
+    private fun alertOfChanges() {
+        AlertDialog.Builder(this@NoteActivity)
+                .setTitle("Note has changed!")
+                .setMessage("Do you want to save the changes?")
+                .setPositiveButton("Yes"){_, _ -> saveNote() }
+                .setNegativeButton("No"){_, _ -> super.onBackPressed() }
+                .show()
     }
 
     private fun saveNote() {
