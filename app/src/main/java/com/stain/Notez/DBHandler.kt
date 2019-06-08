@@ -4,7 +4,6 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import android.util.Log
 import com.stain.Notez.models.Note
 
 class DBHandler(context: Context): SQLiteOpenHelper(context, DB_NAME, null, DB_VERSION) {
@@ -25,7 +24,7 @@ class DBHandler(context: Context): SQLiteOpenHelper(context, DB_NAME, null, DB_V
                 "$NOTE_ID INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "$NOTE_TITLE TEXT," +
                 "$NOTE_TEXT TEXT, " +
-                "$NOTE_TIMESTAMP TIMESTAMP DEFAULT CURRENT_TIMESTAMP)"
+                "$NOTE_TIMESTAMP TEXT)"
 
         db?.execSQL(CREATE_NOTE_TABLE)
     }
@@ -44,7 +43,8 @@ class DBHandler(context: Context): SQLiteOpenHelper(context, DB_NAME, null, DB_V
                     Note(
                             cursor.getInt(cursor.getColumnIndex(NOTE_ID)),
                             cursor.getString(cursor.getColumnIndex(NOTE_TITLE)),
-                            cursor.getString(cursor.getColumnIndex(NOTE_TEXT))
+                            cursor.getString(cursor.getColumnIndex(NOTE_TEXT)),
+                            cursor.getString(cursor.getColumnIndex(NOTE_TIMESTAMP))
                     )
             )
         }
@@ -60,6 +60,7 @@ class DBHandler(context: Context): SQLiteOpenHelper(context, DB_NAME, null, DB_V
 
         cv.put(NOTE_TITLE, note.title)
         cv.put(NOTE_TEXT, note.text)
+        cv.put(NOTE_TIMESTAMP, note.timestamp)
 
         db.insert(NOTE_TABLE_NAME, null, cv)
         db.close()
@@ -71,6 +72,7 @@ class DBHandler(context: Context): SQLiteOpenHelper(context, DB_NAME, null, DB_V
 
         cv.put(NOTE_TITLE, note.title)
         cv.put(NOTE_TEXT, note.text)
+        cv.put(NOTE_TIMESTAMP, note.timestamp)
 
         db.update(NOTE_TABLE_NAME, cv, "id=${note.id}", null)
         db.close()
@@ -81,7 +83,5 @@ class DBHandler(context: Context): SQLiteOpenHelper(context, DB_NAME, null, DB_V
 
         db.delete(NOTE_TABLE_NAME, "id=$id", null)
         db.close()
-
-        Log.d("DB.DELETE", "Note with id $id was deleted")
     }
 }

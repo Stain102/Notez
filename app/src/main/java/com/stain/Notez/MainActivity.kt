@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity(), NoteAdapter.ItemClickListener {
 
         return if (id == R.id.action_add) {
             val intent = Intent(this, NoteActivity::class.java)
-            intent.putExtra(NoteActivity.NOTE, Note(-1,"",""))
+            intent.putExtra(NoteActivity.NOTE, Note(-1,"","", ""))
             startActivityForResult(intent, NoteActivity.REQ_CODE_ADD)
             return true
         } else super.onOptionsItemSelected(item)

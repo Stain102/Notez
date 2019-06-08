@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.EditText
+import android.widget.TextView
 import com.stain.Notez.models.Note
 
 class NoteActivity : AppCompatActivity() {
@@ -23,6 +24,7 @@ class NoteActivity : AppCompatActivity() {
     private var isNew = true
     private var title: EditText? = null
     private var text: EditText? = null
+    private var timestamp: TextView? = null
     lateinit var note: Note
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -73,6 +75,7 @@ class NoteActivity : AppCompatActivity() {
         if (hasNoteChanged()) {
             note.title = title?.text.toString()
             note.text = text?.text.toString()
+            note.timestamp = Util.getTimestamp()
             intent.putExtra(NOTE, note)
             setResult(Activity.RESULT_OK, intent)
         } else {
@@ -85,12 +88,13 @@ class NoteActivity : AppCompatActivity() {
         val title = title?.text.toString()
         val text = text?.text.toString()
 
-        return note.compareTo(Note(note.id, title, text)) != 0
+        return note.compareTo(Note(note.id, title, text, note.timestamp)) != 0
     }
 
     private fun setViews() {
         title = findViewById(R.id.note_title)
         text = findViewById(R.id.note_body)
+        timestamp = findViewById(R.id.note_status)
     }
 
     private fun processIntentValues(intent: Intent) {
@@ -101,5 +105,6 @@ class NoteActivity : AppCompatActivity() {
 
         title?.setText(note.title)
         text?.setText(note.text)
+        timestamp?.text = Util.getTimestampText(note.timestamp)
     }
 }
