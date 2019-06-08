@@ -2,7 +2,6 @@ package com.stain.Notez
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -39,6 +38,7 @@ class NoteAdapter(private val ctx: Context, private val notes: ArrayList<Note>) 
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.title.text = notes[position].title
+        holder.timestamp.text = Util.getTimestampText(notes[position].timestamp)
 
         // ToDo: use the following line to handling clicking on the entire row + use clickListener above
 //        holder.itemView.setOnClickListener()
@@ -48,6 +48,7 @@ class NoteAdapter(private val ctx: Context, private val notes: ArrayList<Note>) 
 
     class ViewHolder(itemView: View, clickListener: ItemClickListener) : RecyclerView.ViewHolder(itemView) {
         val title: TextView = itemView.findViewById(R.id.title)
+        val timestamp: TextView = itemView.findViewById(R.id.timestamp)
         private val btnEdit: ImageButton = itemView.findViewById(R.id.btn_edit)
         private val btnDel: ImageButton = itemView.findViewById(R.id.btn_del)
 
@@ -63,7 +64,6 @@ class NoteAdapter(private val ctx: Context, private val notes: ArrayList<Note>) 
 
     fun itemChanged(note: Note) {
         val index = getItemIndex(note.id)
-        Log.d("NoteAdapter", "note-index: $index")
         notes[index] = note
         notifyItemChanged(index)
     }
