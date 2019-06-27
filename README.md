@@ -6,7 +6,7 @@ the delete button on each row.
 Adding or editing a note has its own dedicated
 screen, where you give it a title and content.
 
-# Additional features
+## Additional features
 Currently, this is only a first functional version
 of the app and I have things I want to change/add.
 - Modernize the layout.
